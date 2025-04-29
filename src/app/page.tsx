@@ -1,6 +1,7 @@
 import Image from "next/image"
 import logo from '../../public/logo-v1.png';
 import homeImg from '../../public/home-gb.png';
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
@@ -13,6 +14,10 @@ export default function Home() {
         <h1 className="text-2xl font-bold text-zinc-100">
           Go Barber App
         </h1>
+
+        <Button className="bg-orange-600 p-4">
+          <h1 className="text-zinc-900">Entrar</h1>
+        </Button>
       </div>
 
       <div className="w-1/2">
