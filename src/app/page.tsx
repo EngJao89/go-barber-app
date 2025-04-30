@@ -2,6 +2,7 @@ import Image from "next/image"
 import logo from '../../public/logo-v1.png';
 import homeImg from '../../public/home-gb.png';
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function Home() {
   return (
@@ -14,6 +15,8 @@ export default function Home() {
         <h1 className="text-2xl font-bold text-zinc-100">
           Go Barber App
         </h1>
+
+        <Input className="border-zinc-100 rounded-b-xl"/>
 
         <Button className="bg-orange-600 p-4">
           <h1 className="text-zinc-900">Entrar</h1>
