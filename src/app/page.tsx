@@ -18,6 +18,8 @@ export default function Home() {
 
         <Input className="border-zinc-100 rounded-b-xl"/>
 
+        <Input className="border-zinc-100 rounded-b-xl mt-4"/>
+
         <Button className="bg-orange-600 p-4">
           <h1 className="text-zinc-900">Entrar</h1>
         </Button>
