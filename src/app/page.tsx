@@ -6,30 +6,43 @@ import { Input } from "@/components/ui/input";
 
 export default function Home() {
   return (
-    <div className="flex flex-row items-center justify-between">
-      <div className="flex flex-col items-center justify-center text-center p-16 gap-4">
-        <Image 
-          src={logo} 
-          alt="Logo" 
-        />
-        <h1 className="text-2xl font-bold text-zinc-100">
-          Go Barber App
-        </h1>
+    <div className="flex min-h-screen">
+      <div className="w-1/2 flex items-center justify-center p-8">
+        <div className="flex flex-col items-center max-w-md w-full gap-6">
+          <Image 
+            src={logo} 
+            alt="Logo"
+            className="w-44 h-auto" 
+          />
+          <h1 className="text-2xl font-bold text-zinc-100">
+            Go Barber App
+          </h1>
 
-        <Input className="border-zinc-100 rounded-b-xl"/>
+          <div className="w-full space-y-4">
+            <Input 
+              className="w-full h-12 px-4 text-zinc-100 bg-transparent border-zinc-400 rounded-lg focus:border-orange-500" 
+              placeholder="Email"
+            />
 
-        <Input className="border-zinc-100 rounded-b-xl mt-4"/>
+            <Input 
+              className="w-full h-12 px-4 text-zinc-100 bg-transparent border-zinc-400 rounded-lg focus:border-orange-500" 
+              placeholder="Senha"
+              type="password"
+            />
 
-        <Button className="bg-orange-600 p-4">
-          <h1 className="text-zinc-900">Entrar</h1>
-        </Button>
+            <Button className="w-full h-12 bg-orange-600 hover:bg-orange-700 rounded-lg">
+              <span className="text-zinc-100 font-medium">Entrar</span>
+            </Button>
+          </div>
+        </div>
       </div>
 
-      <div className="w-1/2">
+      <div className="w-1/2 h-screen">
         <Image 
           src={homeImg} 
           alt="Home Image"
-          className="object-contain w-full" 
+          className="object-cover w-full h-full" 
+          priority
         />
       </div>
     </div>
