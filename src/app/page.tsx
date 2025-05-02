@@ -12,10 +12,10 @@ export default function Home() {
           <Image 
             src={logo} 
             alt="Logo"
-            className="w-44 h-auto" 
+            className="w-60 h-auto mb-4" 
           />
-          <h1 className="text-2xl font-bold text-zinc-100">
-            Go Barber App
+          <h1 className="mt-4 mb-4 text-2xl font-bold text-zinc-100">
+            Faça seu Login
           </h1>
 
           <div className="w-full space-y-4">
@@ -32,6 +32,10 @@ export default function Home() {
 
             <Button className="w-full h-12 bg-orange-600 hover:bg-orange-700 rounded-lg">
               <span className="text-zinc-100 font-medium">Entrar</span>
+            </Button>
+
+            <Button className="w-full flex justify-center items-center">
+              <h1 className="text-zinc-100 font-bold">Esqueci minha senha</h1>
             </Button>
           </div>
         </div>
