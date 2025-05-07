@@ -1,18 +1,28 @@
 'use client'
 
-import Image from "next/image"
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { FiLogIn } from "react-icons/fi";
+import { FiArrowLeft } from "react-icons/fi";
 
-import logo from '../../public/logo-v1.png';
-import homeImg from '../../public/home-gb.png';
-import { Button } from "@/components/ui/button";
+import logo from '../../../public/logo-v1.png';
+import registerImg from "../../../public/register-gb.png";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-export default function Home() {
+export default function RegisterUser() {
   const router = useRouter();
-  return (
+
+  return(
     <div className="flex min-h-screen">
+      <div className="w-1/2 h-screen">
+      <Image 
+          src={registerImg} 
+          alt="Home Image"
+          className="object-cover w-full h-full" 
+          priority
+        />
+      </div>
+
       <div className="w-1/2 flex items-center justify-center p-8">
         <div className="flex flex-col items-center max-w-md w-full gap-6">
           <Image 
@@ -21,10 +31,15 @@ export default function Home() {
             className="w-60 h-auto mb-4" 
           />
           <h1 className="mt-4 mb-4 text-2xl font-bold text-zinc-100">
-            Login Usuário
+            Cadastro de Usuário
           </h1>
 
           <div className="w-full space-y-4">
+            <Input 
+              className="w-full h-12 px-4 text-zinc-100 bg-transparent border-zinc-400 rounded-lg focus:border-orange-500" 
+              placeholder="Nome"
+            />
+
             <Input 
               className="w-full h-12 px-4 text-zinc-100 bg-transparent border-zinc-400 rounded-lg focus:border-orange-500" 
               placeholder="Email"
@@ -36,33 +51,25 @@ export default function Home() {
               type="password"
             />
 
+            <Input 
+              className="w-full h-12 px-4 text-zinc-100 bg-transparent border-zinc-400 rounded-lg focus:border-orange-500" 
+              placeholder="Telefone"
+            />
+
             <Button className="w-full h-12 bg-orange-600 hover:bg-orange-700 rounded-lg">
               <span className="text-zinc-100 font-medium">Entrar</span>
             </Button>
 
-            <Button className="w-full flex justify-center items-center">
-              <h1 className="text-zinc-100 font-bold">Esqueci minha senha</h1>
-            </Button>
-
             <Button 
-              onClick={() => router.push('/register-user')} 
+              onClick={() => router.push('/')} 
               className="w-full flex mt-32 justify-center items-center"
             >
-              <FiLogIn size={12} className="text-orange-500"/>
-              <h1 className="text-orange-600 font-bold">Criar conta de usuário</h1>
+              <FiArrowLeft size={12} className="text-orange-500"/>
+              <h1 className="text-orange-600 font-bold">Voltar para login de usuário</h1>
             </Button>
           </div>
         </div>
       </div>
-
-      <div className="w-1/2 h-screen">
-        <Image 
-          src={homeImg} 
-          alt="Home Image"
-          className="object-cover w-full h-full" 
-          priority
-        />
-      </div>
     </div>
-  );
+  )
 }
