@@ -1,10 +1,16 @@
+'use client'
+
 import Image from "next/image"
+import { useRouter } from "next/navigation";
+import { FiLogIn } from "react-icons/fi";
+
 import logo from '../../public/logo-v1.png';
 import homeImg from '../../public/home-gb.png';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <div className="flex min-h-screen">
       <div className="w-1/2 flex items-center justify-center p-8">
@@ -36,6 +42,14 @@ export default function Home() {
 
             <Button className="w-full flex justify-center items-center">
               <h1 className="text-zinc-100 font-bold">Esqueci minha senha</h1>
+            </Button>
+
+            <Button 
+              onClick={() => router.push('/loginbarber')} 
+              className="w-full flex mt-32 justify-center items-center"
+            >
+              <FiLogIn size={12} className="text-orange-500"/>
+              <h1 className="text-orange-600 font-bold">Criar conta de usuário</h1>
             </Button>
           </div>
         </div>
