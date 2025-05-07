@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useRouter } from "next/navigation";
-import { FiLogIn } from "react-icons/fi";
+import { FiCornerDownRight, FiLogIn } from "react-icons/fi";
 
 import logo from '../../public/logo-v1.png';
 import homeImg from '../../public/home-gb.png';
@@ -40,16 +40,29 @@ export default function Home() {
               <span className="text-zinc-100 font-medium">Entrar</span>
             </Button>
 
-            <Button className="w-full flex justify-center items-center">
-              <h1 className="text-zinc-100 font-bold">Esqueci minha senha</h1>
+            <Button 
+              variant="ghost"
+              className="w-full flex justify-center items-center hover:bg-zinc-800"
+            >
+              <h1 className="text-zinc-100 font-bold hover:text-zinc-600">Esqueci minha senha</h1>
             </Button>
 
             <Button 
               onClick={() => router.push('/register-user')} 
-              className="w-full flex mt-32 justify-center items-center"
+              variant="ghost"
+              className="w-full flex mt-32 justify-center items-center gap-2 hover:bg-zinc-800"
             >
               <FiLogIn size={12} className="text-orange-500"/>
-              <h1 className="text-orange-600 font-bold">Criar conta de usuário</h1>
+              <h1 className="text-orange-600 font-bold hover:text-orange-800">Criar conta de usuário</h1>
+            </Button>
+
+            <Button 
+              onClick={() => router.push('/login-barber')} 
+              variant="ghost"
+              className="w-full flex mt-4 justify-center items-center gap-2 hover:bg-zinc-800"
+            >
+              <FiCornerDownRight size={12} className="text-orange-500"/>
+              <h1 className="text-orange-600 font-bold hover:text-orange-800">Login Barbeiros</h1>
             </Button>
           </div>
         </div>
