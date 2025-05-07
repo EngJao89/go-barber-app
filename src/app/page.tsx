@@ -21,7 +21,7 @@ export default function Home() {
             className="w-60 h-auto mb-4" 
           />
           <h1 className="mt-4 mb-4 text-2xl font-bold text-zinc-100">
-            Faça seu Login
+            Login Usuário
           </h1>
 
           <div className="w-full space-y-4">
