@@ -47,7 +47,7 @@ export default function LoginBarber(){
             </Button>
 
             <Button 
-              onClick={() => router.push('/loginbarber')} 
+              onClick={() => router.push('/login-barber')} 
               className="w-full flex mt-32 justify-center items-center"
             >
               <FiLogIn size={12} className="text-orange-500"/>
