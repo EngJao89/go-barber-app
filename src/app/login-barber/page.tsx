@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import { useRouter } from "next/navigation";
-import { FiLogIn } from "react-icons/fi";
+import { FiArrowLeft, FiLogIn } from "react-icons/fi";
 
 import logo from '../../../public/logo-v1.png';
 import homeImg from '../../../public/home-gb.png';
@@ -39,19 +39,27 @@ export default function LoginBarber(){
             />
 
             <Button className="w-full h-12 bg-orange-600 hover:bg-orange-700 rounded-lg">
-              <span className="text-zinc-100 font-medium">Entrar</span>
+              <span className="text-zinc-100 font-medium hover:text-zinc-600">Entrar</span>
             </Button>
 
             <Button className="w-full flex justify-center items-center">
-              <h1 className="text-zinc-100 font-bold">Esqueci minha senha</h1>
+              <h1 className="text-zinc-100 font-bold hover:text-zinc-600">Esqueci minha senha</h1>
             </Button>
 
             <Button 
               onClick={() => router.push('/register-barber')} 
-              className="w-full flex mt-32 justify-center items-center"
+              className="w-full flex mt-32 justify-center items-center "
             >
-              <FiLogIn size={12} className="text-orange-500"/>
-              <h1 className="text-orange-600 font-bold">Criar conta de Barbeiro</h1>
+              <FiLogIn size={12} className="text-orange-600"/>
+              <h1 className="text-orange-600 hover:text-orange-800 font-bold">Criar conta de Barbeiro</h1>
+            </Button>
+
+            <Button 
+              onClick={() => router.push('/')} 
+              className="w-full flex justify-center items-center"
+            >
+              <FiArrowLeft size={12} className="text-orange-600"/>
+              <h1 className="text-orange-600 hover:text-orange-800 font-bold">Voltar para login de usuário</h1>
             </Button>
           </div>
         </div>

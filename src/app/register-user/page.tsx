@@ -56,8 +56,8 @@ export default function RegisterUser() {
               placeholder="Telefone"
             />
 
-            <Button className="w-full h-12 bg-orange-600 hover:bg-orange-700 rounded-lg">
-              <span className="text-zinc-100 font-medium">Entrar</span>
+            <Button className="w-full h-12 bg-orange-600 hover:bg-orange-800 rounded-lg">
+              <span className="text-zinc-100 font-bold hover:text-zinc-600">Entrar</span>
             </Button>
 
             <Button 
@@ -65,7 +65,7 @@ export default function RegisterUser() {
               className="w-full flex mt-32 justify-center items-center"
             >
               <FiArrowLeft size={12} className="text-orange-500"/>
-              <h1 className="text-orange-600 font-bold">Voltar para login de usuário</h1>
+              <h1 className="text-orange-600 hover:text-orange-800 font-bold">Voltar para login de usuário</h1>
             </Button>
           </div>
         </div>

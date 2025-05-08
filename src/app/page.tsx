@@ -36,8 +36,8 @@ export default function Home() {
               type="password"
             />
 
-            <Button className="w-full h-12 bg-orange-600 hover:bg-orange-700 rounded-lg">
-              <span className="text-zinc-100 font-medium">Entrar</span>
+            <Button className="w-full h-12 bg-orange-600 hover:bg-orange-800 rounded-lg">
+              <span className="text-zinc-100 font-medium hover:text-zinc-600">Entrar</span>
             </Button>
 
             <Button 
@@ -52,16 +52,16 @@ export default function Home() {
               variant="ghost"
               className="w-full flex mt-32 justify-center items-center gap-2 hover:bg-zinc-800"
             >
-              <FiLogIn size={12} className="text-orange-500"/>
+              <FiLogIn size={12} className="text-orange-600"/>
               <h1 className="text-orange-600 font-bold hover:text-orange-800">Criar conta de usuário</h1>
             </Button>
 
             <Button 
               onClick={() => router.push('/login-barber')} 
               variant="ghost"
-              className="w-full flex mt-4 justify-center items-center gap-2 hover:bg-zinc-800"
+              className="w-full flex justify-center items-center gap-2 hover:bg-zinc-800"
             >
-              <FiCornerDownRight size={12} className="text-orange-500"/>
+              <FiCornerDownRight size={12} className="text-orange-600"/>
               <h1 className="text-orange-600 font-bold hover:text-orange-800">Login Barbeiros</h1>
             </Button>
           </div>

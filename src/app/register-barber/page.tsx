@@ -31,7 +31,7 @@ export default function RegisterBarber() {
             className="w-60 h-auto mb-4" 
           />
           <h1 className="mt-4 mb-4 text-2xl font-bold text-zinc-100">
-            Cadastro de Usuário
+            Cadastro de Barbeiros
           </h1>
 
           <div className="w-full space-y-4">
@@ -56,16 +56,21 @@ export default function RegisterBarber() {
               placeholder="Telefone"
             />
 
-            <Button className="w-full h-12 bg-orange-600 hover:bg-orange-700 rounded-lg">
-              <span className="text-zinc-100 font-medium">Entrar</span>
+            <Input 
+              className="w-full h-12 px-4 text-zinc-100 bg-transparent border-zinc-400 rounded-lg focus:border-orange-500" 
+              placeholder="Barbershop"
+            />
+
+            <Button className="w-full h-12 bg-orange-600 hover:bg-orange-800 rounded-lg">
+              <span className="text-zinc-100 font-bold hover:text-zinc-600">Entrar</span>
             </Button>
 
             <Button 
-              onClick={() => router.push('/')} 
+              onClick={() => router.push('/login-barber')} 
               className="w-full flex mt-32 justify-center items-center"
             >
               <FiArrowLeft size={12} className="text-orange-500"/>
-              <h1 className="text-orange-600 font-bold">Voltar para login de usuário</h1>
+              <h1 className="text-orange-600 hover:text-orange-800 font-bold">Voltar para login de barbeiro</h1>
             </Button>
           </div>
         </div>
