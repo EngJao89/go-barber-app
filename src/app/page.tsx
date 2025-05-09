@@ -36,7 +36,10 @@ export default function Home() {
               type="password"
             />
 
-            <Button className="w-full h-12 bg-orange-600 hover:bg-orange-800 rounded-lg">
+            <Button 
+              onClick={() => router.push('/dashboard-user')} 
+              className="w-full h-12 bg-orange-600 hover:bg-orange-800 rounded-lg"
+            >
               <span className="text-zinc-100 font-medium hover:text-zinc-600">Entrar</span>
             </Button>
 
