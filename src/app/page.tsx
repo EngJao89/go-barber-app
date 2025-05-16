@@ -55,7 +55,7 @@ export default function Home() {
       const response = await api.post('auth-user/login', data, { withCredentials: true });
 
       if (response.data.accessToken) {
-        localStorage.setItem('authToken', response.data.accessToken);
+        localStorage.setItem('authUserToken', response.data.accessToken);
         toast.success(`Usuário Logado: ${data.email}, Seja Bem vindo!`, {theme: "light"})
         router.replace('/dashboard-user');
       } else {
