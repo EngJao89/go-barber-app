@@ -2,6 +2,8 @@
 
 import Image from "next/image"
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
 import { FiCornerDownRight, FiLogIn } from "react-icons/fi";
 import { z } from "zod";
 import { useForm, FormProvider } from "react-hook-form";
@@ -13,8 +15,6 @@ import homeImg from '../../public/home-gb.png';
 import api from "@/lib/axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 const loginSchema = z.object({
@@ -25,7 +25,7 @@ const loginSchema = z.object({
 export type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function Home() {
-    const router = useRouter();
+  const router = useRouter();
   const methods = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
