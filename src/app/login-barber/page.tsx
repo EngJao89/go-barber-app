@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import api from "@/lib/axios";
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { useAuth } from "@/contexts/AuthContext";
 
 const loginSchema = z.object({
   email: z.string().email("E-mail é obrigatório"),
@@ -26,6 +27,7 @@ export type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function LoginBarber(){
   const router = useRouter();
+  const {setBarberToken} = useAuth();
   const methods = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -38,7 +40,7 @@ export default function LoginBarber(){
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem('authUserToken');
+      const token = localStorage.getItem('authBarberToken');
       if (token) {
         router.replace('/dashboard-barber');
       }
@@ -48,16 +50,17 @@ export default function LoginBarber(){
     const onSubmit = async (data: LoginSchema) => {
     try {
       if (!data.email || !data.password) {
-        toast.warning('Por favor, forneça o nome de usuário e a senha', {theme: "light"});
-        throw new Error('Por favor, forneça o nome de usuário e a senha');
+        toast.warning('Por favor, forneça o nome de barbeiro e a senha', {theme: "light"});
+        throw new Error('Por favor, forneça o nome de barbeiro e a senha');
       }
 
       const response = await api.post('auth-barber/login', data, { withCredentials: true });
 
       if (response.data.accessToken) {
-        localStorage.setItem('authUserToken', response.data.accessToken);
-        toast.success(`Usuário Logado: ${data.email}, Seja Bem vindo!`, {theme: "light"})
-        router.replace('/dashboard-barber');
+        localStorage.setItem('authBarberToken', response.data.accessToken);
+        setBarberToken(response.data.accessToken)
+        toast.success(`Barbeiro Logado: ${data.email}, Seja Bem vindo!`, {theme: "light"})
+        router.push('/dashboard-barber');
       } else {
         toast.error('Token não encontrado na resposta', {theme: "light"})
         throw new Error('Token não encontrado na resposta');
