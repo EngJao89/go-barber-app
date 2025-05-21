@@ -25,7 +25,7 @@ export function HeaderUser() {
   const router = useRouter();
   const { userToken, setUserToken } = useAuth();
 
-    const fetchUserData = useCallback(async () => {
+  const fetchUserData = useCallback(async () => {
     try {
       if (!userToken) {
         router.push('/');
