@@ -38,7 +38,7 @@ export default function LoginBarber(){
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('authUserToken');
       if (token) {
         router.replace('/dashboard-barber');
       }
