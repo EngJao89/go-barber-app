@@ -16,7 +16,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [barberToken, setBarberToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const storedUserToken = localStorage.getItem('authToken');
+    const storedUserToken = localStorage.getItem('authUserToken');
     if (storedUserToken) {
       setUserToken(storedUserToken);
     }

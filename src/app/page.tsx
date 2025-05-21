@@ -12,7 +12,9 @@ import axios from 'axios';
 
 import logo from '../../public/logo-v1.png';
 import homeImg from '../../public/home-gb.png';
+
 import api from "@/lib/axios";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -26,6 +28,8 @@ export type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function Home() {
   const router = useRouter();
+  const { setUserToken } = useAuth();
+
   const methods = useForm<LoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -38,7 +42,7 @@ export default function Home() {
 
     useEffect(() => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem('authToken');
+      const token = localStorage.getItem('authUserToken');
       if (token) {
         router.replace('/dashboard-user');
       }
@@ -55,9 +59,10 @@ export default function Home() {
       const response = await api.post('auth-user/login', data, { withCredentials: true });
 
       if (response.data.accessToken) {
-        localStorage.setItem('authUserToken', response.data.accessToken);
+        localStorage.setItem('authUserToken', response.data.accessToken); 
+        setUserToken(response.data.accessToken); 
         toast.success(`Usuário Logado: ${data.email}, Seja Bem vindo!`, {theme: "light"})
-        router.replace('/dashboard-user');
+        router.push('/dashboard-user');
       } else {
         toast.error('Token não encontrado na resposta', {theme: "light"})
         throw new Error('Token não encontrado na resposta');
