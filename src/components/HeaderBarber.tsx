@@ -37,7 +37,7 @@ export function HeaderBarber() {
         Authorization: `Bearer ${barberToken}`,
       };
 
-      const response = await api.post<UserData>('auth-user/me', {}, { headers });
+      const response = await api.post<UserData>('auth-barber/me', {}, { headers });
       setBarberData(response.data);
 
       localStorage.setItem('userData', JSON.stringify(response.data));
@@ -48,9 +48,9 @@ export function HeaderBarber() {
           if (axiosError.response.status === 401 || axiosError.response.data.error === 'Invalid Token') {
             handleLogout();
           }
-          toast.error(`Error fetching user data: ${axiosError.response.data.message}`, { theme: "light" });
+          toast.error(`Error fetching barber data: ${axiosError.response.data.message}`, { theme: "light" });
         } else if (axiosError.request) {
-          toast.error('Error fetching user data. No response from server.', { theme: "light" });
+          toast.error('Error fetching barber data. No response from server.', { theme: "light" });
         } else {
           toast.error(`Error fetching user data: ${axiosError.message}`, { theme: "light" });
         }
