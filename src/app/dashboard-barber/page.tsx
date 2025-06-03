@@ -11,7 +11,7 @@ export default function DashboardBarber() {
         </div>
 
         <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agendamento</h1>
+          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
         </div>
       </div>
     </div>
