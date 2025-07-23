@@ -44,6 +44,10 @@ export default function DashboardBarber() {
           <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
           <p className="text-orange-500 text-base font-normal">Hoje | Dia 15 | Terça feira</p>
         </div>
+                <div className="ml-2 mr-2 mt-14">
+          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
+          <p className="text-orange-500 text-base font-normal">Hoje | Dia 22 | Terça feira</p>
+        </div>
       </div>
     </div>
   )
