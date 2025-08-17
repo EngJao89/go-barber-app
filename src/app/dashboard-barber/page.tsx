@@ -1,4 +1,5 @@
 import { HeaderBarber } from "@/components/HeaderBarber";
+import { CardScheduling } from "@/components/CardScheduling";
 import { getCurrentDate } from "@/utils/getTimeStamp";
 
 export default function DashboardBarber() {
@@ -12,102 +13,8 @@ export default function DashboardBarber() {
           <h1 className="text-zinc-50 text-4xl font-bold">Horários Agendados</h1>
           <p className="text-orange-500 text-base font-normal">Hoje | Dia {currentDate.day} | {currentDate.weekday}</p>
         </div>
-
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 22 | Quinta feira</p>
-        </div>
-
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 22 | Quinta feira</p>
-        </div>
-
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 07 | Segunda feira</p>
-        </div>
-
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 08 | Terça feira</p>
-        </div>
-
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 08 | Terça feira</p>
-        </div>
-
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 14 | Segunda feira</p>
-        </div>
-
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 15 | Terça feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 22 | Terça feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 23 | Quarta feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 24 | Quinta feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 25 | Sexta feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 28 | Segunda feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 30 | Quarta feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 31 | Quinta feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 01 | Sexta feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 04 | Segunda feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 05 | Terça feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 06 | Quarta feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 07 | Quinta feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 11 | Segunda feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 13 | Quarta feira</p>
-        </div>
-        <div className="ml-2 mr-2 mt-14">
-          <h1 className="text-zinc-400 text-xl font-bold">Agenda do dia</h1>
-          <p className="text-orange-500 text-base font-normal">Hoje | Dia 14 | Quinta feira</p>
-        </div>
       </div>
+      <CardScheduling />
     </div>
   )
 }
