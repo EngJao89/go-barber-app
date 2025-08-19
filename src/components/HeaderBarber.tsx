@@ -11,17 +11,10 @@ import logoHeader from "../../public/logo-header.png"
 import api from "@/lib/axios";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "./ui/button";
-
-interface UserData {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  accessToken: string;
-}
+import { Barber } from "@/@types/barbers";
 
 export function HeaderBarber() {
-  const [barberData, setBarberData] = useState<UserData | null>(null);
+  const [barberData, setBarberData] = useState<Barber | null>(null);
   const router = useRouter();
   const { barberToken, setBarberToken } = useAuth();
 
@@ -37,13 +30,13 @@ export function HeaderBarber() {
         Authorization: `Bearer ${barberToken}`,
       };
 
-      const response = await api.post<UserData>('auth-barber/me', {}, { headers });
+      const response = await api.post<Barber>('auth-barber/me', {}, { headers });
       setBarberData(response.data);
 
       localStorage.setItem('userData', JSON.stringify(response.data));
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<any>;
+        const axiosError = error as AxiosError<{ message: string; error: string }>;
         if (axiosError.response) {
           if (axiosError.response.status === 401 || axiosError.response.data.error === 'Invalid Token') {
             handleLogout();
@@ -61,7 +54,7 @@ export function HeaderBarber() {
   }, [barberToken, router]);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('authUserToken');
+    const storedToken = localStorage.getItem('authBarberToken');
     if (storedToken) {
       setBarberToken(storedToken);
       fetchBarberData();
@@ -98,7 +91,9 @@ export function HeaderBarber() {
             
             <div>
               <h1 className="text-zinc-400 font-bold">Bem Vindo,</h1>
-              <h1 className="text-orange-600 font-bold">João Ricardo Martins Ribeiro</h1>
+              <h1 className="text-orange-600 font-bold">
+                {barberData?.name || "Carregando..."}
+              </h1>
             </div>
           </div>
 
