@@ -1,6 +1,6 @@
 import { getCurrentDate } from "@/utils/getTimeStamp";
 import { HeaderUser } from "@/components/HeaderUser";
-import { CardScheduling } from "@/components/CardScheduling";
+import { SchedulingList } from "@/components/SchedulingList";
 import { Calendar } from "@/components/Calendar";
 
 export default function DashboardUser() {
@@ -17,11 +17,11 @@ export default function DashboardUser() {
       </div>
 
       <div className="m-6 flex gap-8">
-        <div className="flex-1">
-          <h1 className="text-zinc-500 text-xl font-bold mb-4">Atendimento Próximo</h1>
-          <CardScheduling />
+        <div className="w-1/2">
+          <h1 className="text-zinc-500 text-xl font-bold mb-4">Meus Agendamentos</h1>
+          <SchedulingList />
         </div>
-        <div className="flex-1 flex justify-center">
+        <div className="w-1/2 h-fit flex justify-center">
           <Calendar />
         </div>
       </div>

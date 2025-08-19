@@ -1,10 +1,15 @@
 import { Clock } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Card, CardHeader } from "./ui/card";
+import { Scheduling } from "@/@types/scheduling";
 
-export function CardScheduling() {
+interface CardSchedulingProps {
+  scheduling?: Scheduling;
+}
+
+export function CardScheduling({ scheduling }: CardSchedulingProps) {
   return (
-    <Card className="border-zinc-400">
+    <Card className="border-zinc-400 m-2">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -12,11 +17,15 @@ export function CardScheduling() {
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <p className="text-zinc-300 font-bold">Agendamento</p>
+            <p className="text-zinc-300 font-bold">
+              {scheduling?.serviceType || "Agendamento"}
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-orange-600" />
-            <p className="text-zinc-400">08:00</p>
+            <p className="text-zinc-400">
+              {scheduling?.hourAt || "08:00"}
+            </p>
           </div>
         </div>
       </CardHeader>
