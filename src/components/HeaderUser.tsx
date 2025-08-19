@@ -25,11 +25,18 @@ export function HeaderUser() {
   const router = useRouter();
   const { userToken, setUserToken } = useAuth();
 
+  function handleLogout() {
+    localStorage.removeItem('authUserToken');
+    setUserToken(null);
+    toast.warn('Você saiu! Até breve...', { theme: "light" });
+    router.replace('/');
+  }
+
   const fetchUserData = useCallback(async () => {
     try {
       if (!userToken) {
         router.push('/');
-        throw new Error('No token available');
+        return;
       }
 
       const headers = {
@@ -41,9 +48,9 @@ export function HeaderUser() {
       setUserData(response.data);
 
       localStorage.setItem('userData', JSON.stringify(response.data));
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<any>;
+        const axiosError = error as AxiosError<{ message: string; error: string }>;
         if (axiosError.response) {
           if (axiosError.response.status === 401 || axiosError.response.data.error === 'Invalid Token') {
             handleLogout();
@@ -64,19 +71,16 @@ export function HeaderUser() {
     const storedToken = localStorage.getItem('authUserToken');
     if (storedToken) {
       setUserToken(storedToken);
-      fetchUserData();
     } else {
       router.replace('/');
     }
-  }, [setUserToken, fetchUserData, router]);
+  }, [setUserToken, router]);
 
-
-  function handleLogout() {
-    localStorage.removeItem('authUserToken');
-    setUserToken(null);
-    toast.warn('Você saiu! Até breve...', { theme: "light" });
-    router.replace('/');
-  }
+  useEffect(() => {
+    if (userToken) {
+      fetchUserData();
+    }
+  }, [userToken, fetchUserData]);
 
   return(
     <nav className="bg-zinc-900 bg-opacity-30 backdrop-blur-lg">

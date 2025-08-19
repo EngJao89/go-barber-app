@@ -18,11 +18,18 @@ export function HeaderBarber() {
   const router = useRouter();
   const { barberToken, setBarberToken } = useAuth();
 
-    const fetchBarberData = useCallback(async () => {
+  function handleLogout() {
+    localStorage.removeItem('authBarberToken');
+    setBarberToken(null);
+    toast.warn('Você saiu! Até breve...', { theme: "light" });
+    router.replace('/');
+  }
+
+  const fetchBarberData = useCallback(async () => {
     try {
       if (!barberToken) {
         router.push('/');
-        throw new Error('No token available');
+        return;
       }
 
       const headers = {
@@ -57,18 +64,16 @@ export function HeaderBarber() {
     const storedToken = localStorage.getItem('authBarberToken');
     if (storedToken) {
       setBarberToken(storedToken);
-      fetchBarberData();
     } else {
       router.replace('/');
     }
-  }, [setBarberToken, fetchBarberData, router]);
+  }, [setBarberToken, router]);
 
-  function handleLogout() {
-    localStorage.removeItem('authBarberToken');
-    setBarberToken(null);
-    toast.warn('Você saiu! Até breve...', { theme: "light" });
-    router.replace('/');
-  }
+  useEffect(() => {
+    if (barberToken) {
+      fetchBarberData();
+    }
+  }, [barberToken, fetchBarberData]);
 
   return(
     <nav className="bg-zinc-900 bg-opacity-30 backdrop-blur-lg">
