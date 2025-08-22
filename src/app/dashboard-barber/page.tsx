@@ -1,6 +1,6 @@
 import { getCurrentDate } from "@/utils/getTimeStamp";
 import { HeaderBarber } from "@/components/HeaderBarber";
-import { CardScheduling } from "@/components/CardScheduling";
+import { BarberSchedulingList } from "@/components/BarberSchedulingList";
 import { Calendar } from "@/components/Calendar";
 
 export default function DashboardBarber() {
@@ -18,8 +18,8 @@ export default function DashboardBarber() {
 
       <div className="m-6 flex gap-8">
         <div className="flex-1">
-          <h1 className="text-zinc-500 text-xl font-bold mb-4">Atendimento Próximo</h1>
-          <CardScheduling />
+          <h1 className="text-zinc-500 text-xl font-bold mb-4">Horários Disponíveis</h1>
+          <BarberSchedulingList />
         </div>
         <div className="flex-1 flex justify-center">
           <Calendar />
