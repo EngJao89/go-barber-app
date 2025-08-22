@@ -22,13 +22,13 @@ export function HeaderBarber() {
     localStorage.removeItem('authBarberToken');
     setBarberToken(null);
     toast.warn('Você saiu! Até breve...', { theme: "light" });
-    router.replace('/');
+    router.replace('/login-barber');
   }
 
   const fetchBarberData = useCallback(async () => {
     try {
       if (!barberToken) {
-        router.push('/');
+        router.push('/login-barber');
         return;
       }
 
