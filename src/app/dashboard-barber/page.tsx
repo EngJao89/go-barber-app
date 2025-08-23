@@ -21,7 +21,7 @@ export default function DashboardBarber() {
           <h1 className="text-zinc-500 text-xl font-bold mb-4">Horários Disponíveis</h1>
           <BarberSchedulingList />
         </div>
-        <div className="flex-1 flex justify-center">
+        <div className="w-1/2 h-fit flex justify-center">
           <Calendar />
         </div>
       </div>
