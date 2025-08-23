@@ -9,7 +9,7 @@ interface BarberSchedulingCardProps {
 export function BarberSchedulingCard({ scheduling }: BarberSchedulingCardProps) {
   return (
     <Card className="border-zinc-400">
-      <CardHeader className="py-3 px-4">
+      <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-3 h-3 bg-green-500 rounded-full"></div>

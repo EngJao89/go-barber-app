@@ -78,7 +78,6 @@ export function BarberSchedulingList() {
         </div>
       </div>
 
-      {/* Noite */}
       <div>
         <h2 className="text-zinc-300 text-lg font-semibold mb-2">Noite</h2>
         <div className="space-y-1">
