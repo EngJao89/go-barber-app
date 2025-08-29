@@ -119,7 +119,7 @@ export default function Home() {
                       <FormControl>
                         <Input 
                           type="password" 
-                          placeholder="Sua Senha" 
+                          placeholder="Sua Senha Secreta" 
                           {...field} 
                           value={field.value || ''} 
                           className="w-full h-12 px-4 text-zinc-100 bg-transparent mt-4 border-zinc-400 rounded-lg focus:border-orange-500" 
