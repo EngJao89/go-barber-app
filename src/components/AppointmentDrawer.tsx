@@ -82,7 +82,6 @@ export function AppointmentDrawer({ appointment, isOpen, onClose }: AppointmentD
               </div>
             </div>
 
-            {/* Actions */}
             <div className="space-y-3">
               <Button className="w-full bg-orange-600 hover:bg-orange-700">
                 Confirmar Agendamento
