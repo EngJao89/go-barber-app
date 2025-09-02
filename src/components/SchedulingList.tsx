@@ -4,10 +4,13 @@ import { useState, useEffect } from "react";
 import api from "@/lib/axios";
 import { CardScheduling } from "./CardScheduling";
 import { Scheduling } from "@/@types/scheduling";
+import { AppointmentDrawer } from "./AppointmentDrawer";
 
 export function SchedulingList() {
   const [schedulings, setSchedulings] = useState<Scheduling[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedAppointment, setSelectedAppointment] = useState<Scheduling | null>(null);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     fetchSchedulings();
@@ -46,6 +49,16 @@ export function SchedulingList() {
 
   const { morning, afternoon, evening } = groupSchedulingsByPeriod(schedulings);
 
+  const handleCardClick = (appointment: Scheduling) => {
+    setSelectedAppointment(appointment);
+    setIsDrawerOpen(true);
+  };
+
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
+    setSelectedAppointment(null);
+  };
+
   if (loading) {
     return <div className="text-zinc-400">Carregando agendamentos...</div>;
   }
@@ -57,7 +70,11 @@ export function SchedulingList() {
         <div className="space-y-1">
           {morning.length > 0 ? (
             morning.map((scheduling) => (
-              <CardScheduling key={scheduling.id} scheduling={scheduling} />
+              <CardScheduling 
+                key={scheduling.id} 
+                scheduling={scheduling} 
+                onClick={() => handleCardClick(scheduling)}
+              />
             ))
           ) : (
             <p className="text-zinc-500 text-sm">Nenhum agendamento pela manhã</p>
@@ -70,7 +87,11 @@ export function SchedulingList() {
         <div className="space-y-1">
           {afternoon.length > 0 ? (
             afternoon.map((scheduling) => (
-              <CardScheduling key={scheduling.id} scheduling={scheduling} />
+              <CardScheduling 
+                key={scheduling.id} 
+                scheduling={scheduling} 
+                onClick={() => handleCardClick(scheduling)}
+              />
             ))
           ) : (
             <p className="text-zinc-500 text-sm">Nenhum agendamento pela tarde</p>
@@ -83,13 +104,23 @@ export function SchedulingList() {
         <div className="space-y-1">
           {evening.length > 0 ? (
             evening.map((scheduling) => (
-              <CardScheduling key={scheduling.id} scheduling={scheduling} />
+              <CardScheduling 
+                key={scheduling.id} 
+                scheduling={scheduling} 
+                onClick={() => handleCardClick(scheduling)}
+              />
             ))
           ) : (
             <p className="text-zinc-500 text-sm">Nenhum agendamento pela noite</p>
           )}
         </div>
       </div>
+
+      <AppointmentDrawer
+        appointment={selectedAppointment}
+        isOpen={isDrawerOpen}
+        onClose={handleCloseDrawer}
+      />
     </div>
   );
 } 

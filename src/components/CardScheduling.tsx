@@ -5,11 +5,15 @@ import { Scheduling } from "@/@types/scheduling";
 
 interface CardSchedulingProps {
   scheduling?: Scheduling;
+  onClick?: () => void;
 }
 
-export function CardScheduling({ scheduling }: CardSchedulingProps) {
+export function CardScheduling({ scheduling, onClick }: CardSchedulingProps) {
   return (
-    <Card className="border-zinc-400 m-2">
+    <Card 
+      className="border-zinc-400 m-2 cursor-pointer hover:border-orange-500 transition-colors" 
+      onClick={onClick}
+    >
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
