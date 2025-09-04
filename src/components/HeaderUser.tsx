@@ -29,13 +29,13 @@ export function HeaderUser() {
     localStorage.removeItem('authUserToken');
     setUserToken(null);
     toast.warn('Você saiu! Até breve...', { theme: "light" });
-    router.replace('/');
+    router.replace('/login-barber');
   }
 
   const fetchUserData = useCallback(async () => {
     try {
       if (!userToken) {
-        router.push('/');
+        router.push('/login-barber');
         return;
       }
 
@@ -82,6 +82,10 @@ export function HeaderUser() {
     }
   }, [userToken, fetchUserData]);
 
+  const handleProfileClick = () => {
+    router.push('/profile-user');
+  };
+
   return(
     <nav className="bg-zinc-900 bg-opacity-30 backdrop-blur-lg">
       <div className="w-full h-full px-3 py-3">
@@ -103,7 +107,13 @@ export function HeaderUser() {
             
             <div>
               <h1 className="text-zinc-400 font-bold">Bem Vindo,</h1>
-              <h1 className="text-orange-600 font-bold">{userData?.name}</h1>
+              <Button
+                variant="ghost"
+                onClick={handleProfileClick}
+                className="text-orange-600 font-bold p-0 h-auto hover:text-orange-500 hover:bg-transparent"
+              >
+                {userData?.name || "Carregando..."}
+              </Button>
             </div>
           </div>
 
