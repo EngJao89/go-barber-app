@@ -75,6 +75,10 @@ export function HeaderBarber() {
     }
   }, [barberToken, fetchBarberData]);
 
+  const handleProfileClick = () => {
+    router.push('/profile-barber');
+  };
+
   return(
     <nav className="bg-zinc-900 bg-opacity-30 backdrop-blur-lg">
       <div className="w-full h-full px-3 py-3">
@@ -96,9 +100,13 @@ export function HeaderBarber() {
             
             <div>
               <h1 className="text-zinc-400 font-bold">Bem Vindo,</h1>
-              <h1 className="text-orange-600 font-bold">
+              <Button
+                variant="ghost"
+                onClick={handleProfileClick}
+                className="text-orange-600 font-bold p-0 h-auto hover:text-orange-500 hover:bg-transparent"
+              >
                 {barberData?.name || "Carregando..."}
-              </h1>
+              </Button>
             </div>
           </div>
 
