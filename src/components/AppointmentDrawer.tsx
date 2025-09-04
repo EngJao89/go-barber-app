@@ -1,8 +1,11 @@
 'use client';
 
+import { useState, useEffect } from "react";
 import { X, Clock, User, Calendar } from "lucide-react";
 import { Scheduling } from "@/@types/scheduling";
+import { Barber } from "@/@types/barbers";
 import { Button } from "./ui/button";
+import api from "@/lib/axios";
 
 interface AppointmentDrawerProps {
   appointment: Scheduling | null;
@@ -11,6 +14,29 @@ interface AppointmentDrawerProps {
 }
 
 export function AppointmentDrawer({ appointment, isOpen, onClose }: AppointmentDrawerProps) {
+  const [barberData, setBarberData] = useState<Barber | null>(null);
+  const [loadingBarber, setLoadingBarber] = useState(false);
+
+  useEffect(() => {
+    if (appointment && isOpen) {
+      fetchBarberData();
+    }
+  }, [appointment, isOpen]);
+
+  const fetchBarberData = async () => {
+    if (!appointment) return;
+    
+    setLoadingBarber(true);
+    try {
+      const response = await api.get(`barbers/${appointment.barberId}`);
+      setBarberData(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar dados do barbeiro:', error);
+    } finally {
+      setLoadingBarber(false);
+    }
+  };
+
   if (!appointment || !isOpen) return null;
 
   const formatDate = (dateString: string) => {
@@ -77,7 +103,9 @@ export function AppointmentDrawer({ appointment, isOpen, onClose }: AppointmentD
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4 text-zinc-400" />
-                  <span className="text-zinc-100"> Barbeiro: {appointment.barberId}</span>
+                  <span className="text-zinc-100">
+                    {loadingBarber ? 'Carregando...' : barberData?.name || 'Nome não encontrado'}
+                  </span>
                 </div>
               </div>
             </div>
@@ -98,4 +126,4 @@ export function AppointmentDrawer({ appointment, isOpen, onClose }: AppointmentD
       </div>
     </div>
   );
-} 
+}
