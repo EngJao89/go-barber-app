@@ -73,11 +73,11 @@ export function AppointmentDrawer({ appointment, isOpen, onClose }: AppointmentD
             </div>
 
             <div className="bg-zinc-800 p-4 rounded-lg">
-              <h3 className="text-orange-500 font-semibold mb-2">Informações do Cliente</h3>
+              <h3 className="text-orange-500 font-semibold mb-2">Informações do Barbeiro</h3>
               <div className="space-y-2">
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4 text-zinc-400" />
-                  <span className="text-zinc-100">Cliente ID: {appointment.userId}</span>
+                  <span className="text-zinc-100"> Barbeiro: {appointment.barberId}</span>
                 </div>
               </div>
             </div>
