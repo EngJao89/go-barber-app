@@ -79,14 +79,19 @@ export function HeaderBarber() {
     router.push('/profile-barber');
   };
 
+  const handleLogoClick = () => {
+    router.push('/dashboard-barber');
+  };
+
   return(
-    <nav className="bg-zinc-900 bg-opacity-30 backdrop-blur-lg">
-      <div className="w-full h-full px-3 py-3">
+    <nav className="bg-zinc-900 bg-opacity-30 backdrop-blur-lg min-h-[80px]">
+      <div className="w-full h-full px-6 py-4">
         <div className="flex w-full items-center justify-around">
           <Image 
             src={logoHeader} 
             alt="Logo"
-            className="w-32 h-auto m-4"
+            className="w-32 h-auto cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={handleLogoClick}
           />
 
           <div className="flex items-center gap-4">
