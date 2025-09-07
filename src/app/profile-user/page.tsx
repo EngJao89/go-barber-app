@@ -56,17 +56,14 @@ export default function ProfileUser() {
         Authorization: `Bearer ${token}`,
       };
 
-      // Buscar dados do usuário logado
       const response = await api.post('auth-user/me', {}, { headers });
       const user = response.data;
 
-      // Buscar dados completos do usuário
       const userResponse = await api.get(`users/${user.id}`, { headers });
       const fullUserData = userResponse.data;
 
       setUserData(fullUserData);
-      
-      // Preencher o formulário
+
       setValue('name', fullUserData.name);
       setValue('email', fullUserData.email);
       setValue('phone', fullUserData.phone);
@@ -130,7 +127,6 @@ export default function ProfileUser() {
         </div>
 
         <div className="flex gap-8">
-          {/* Avatar Section */}
           <div className="w-1/2 flex flex-col items-center justify-center">
             <Avatar className="w-48 h-48 mb-6">
               <AvatarImage src="https://github.com/EngJao89.png" />
@@ -142,7 +138,6 @@ export default function ProfileUser() {
             <p className="text-zinc-400">{userData?.email}</p>
           </div>
 
-          {/* Form Section */}
           <div className="w-1/2">
             <FormProvider {...methods}>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
