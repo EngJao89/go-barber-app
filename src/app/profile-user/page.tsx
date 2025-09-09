@@ -89,7 +89,7 @@ export default function ProfileUser() {
         Authorization: `Bearer ${token}`,
       };
 
-      await api.put(`users/${userData?.id}`, data, { headers });
+      await api.patch(`users/${userData?.id}`, data, { headers });
       
       toast.success('Perfil atualizado com sucesso!', { theme: "light" });
       
