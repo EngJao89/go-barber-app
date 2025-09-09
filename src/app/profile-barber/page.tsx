@@ -92,7 +92,7 @@ export default function ProfileBarber() {
         Authorization: `Bearer ${token}`,
       };
 
-      await api.put(`barbers/${barberData?.id}`, data, { headers });
+      await api.patch(`barbers/${barberData?.id}`, data, { headers });
       
       toast.success('Perfil atualizado com sucesso!', { theme: "light" });
       
