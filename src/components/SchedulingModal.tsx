@@ -106,7 +106,7 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId }: Sched
                         <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400" size={20} />
                         <Input
                           {...field}
-                          placeholder="ID do barbeiro"
+                          placeholder="Nome do barbeiro"
                           className="pl-10 bg-zinc-800 border-zinc-600 text-zinc-100 placeholder-zinc-400"
                         />
                       </div>
