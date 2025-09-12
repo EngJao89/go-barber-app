@@ -146,7 +146,7 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId }: Sched
                         <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400" size={20} />
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <SelectTrigger className="pl-10 bg-zinc-800 border-zinc-600 text-zinc-100">
-                            <SelectValue placeholder="Selecione o horário" />
+                            <SelectValue placeholder="Selecione seu horário" />
                           </SelectTrigger>
                           <SelectContent>
                             {availableHours.map((hour) => (
