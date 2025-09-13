@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 import { FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import api from "@/lib/axios";
+import { Barber } from "@/@types/barbers";
 
 const schedulingSchema = z.object({
   userId: z.string().min(1, "ID do usuário é obrigatório"),
@@ -30,6 +31,7 @@ interface SchedulingModalProps {
   userId: string;
 }
 
+// Horários disponíveis
 const availableHours = [
   "08:00", "08:30", "09:00", "09:30", "10:00", "10:30",
   "11:00", "11:30", "12:00", "12:30", "13:00", "13:30",
@@ -39,6 +41,8 @@ const availableHours = [
 
 export function SchedulingModal({ isOpen, onClose, selectedDate, userId }: SchedulingModalProps) {
   const [loading, setLoading] = useState(false);
+  const [barbers, setBarbers] = useState<Barber[]>([]);
+  const [loadingBarbers, setLoadingBarbers] = useState(false);
 
   const methods = useForm<SchedulingSchema>({
     resolver: zodResolver(schedulingSchema),
@@ -56,11 +60,25 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId }: Sched
 
   useEffect(() => {
     if (isOpen) {
+      fetchBarbers();
       if (selectedDate) {
         setValue('dayAt', selectedDate.toISOString().split('T')[0]);
       }
     }
   }, [isOpen, selectedDate, setValue]);
+
+  const fetchBarbers = async () => {
+    setLoadingBarbers(true);
+    try {
+      const response = await api.get('barbers');
+      setBarbers(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar barbeiros:', error);
+      toast.error('Erro ao carregar lista de barbeiros', { theme: "light" });
+    } finally {
+      setLoadingBarbers(false);
+    }
+  };
 
   const onSubmit = async (data: SchedulingSchema) => {
     setLoading(true);
@@ -104,11 +122,18 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId }: Sched
                     <FormControl>
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400" size={20} />
-                        <Input
-                          {...field}
-                          placeholder="Nome do barbeiro"
-                          className="pl-10 bg-zinc-800 border-zinc-600 text-zinc-100 placeholder-zinc-400"
-                        />
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <SelectTrigger className="pl-10 bg-zinc-800 border-zinc-600 text-zinc-100">
+                            <SelectValue placeholder={loadingBarbers ? "Carregando barbeiros..." : "Selecione o barbeiro"} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {barbers.map((barber) => (
+                              <SelectItem key={barber.id} value={barber.id}>
+                                {barber.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                     </FormControl>
                     <FormMessage />
