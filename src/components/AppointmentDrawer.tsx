@@ -5,17 +5,21 @@ import { X, Clock, User, Calendar } from "lucide-react";
 import { Scheduling } from "@/@types/scheduling";
 import { Barber } from "@/@types/barbers";
 import { Button } from "./ui/button";
+import { toast } from "react-toastify";
 import api from "@/lib/axios";
 
 interface AppointmentDrawerProps {
   appointment: Scheduling | null;
   isOpen: boolean;
   onClose: () => void;
+  onStatusUpdate?: () => void; // Callback para atualizar a lista após mudança de status
 }
 
-export function AppointmentDrawer({ appointment, isOpen, onClose }: AppointmentDrawerProps) {
+export function AppointmentDrawer({ appointment, isOpen, onClose, onStatusUpdate }: AppointmentDrawerProps) {
   const [barberData, setBarberData] = useState<Barber | null>(null);
   const [loadingBarber, setLoadingBarber] = useState(false);
+  const [loadingConfirm, setLoadingConfirm] = useState(false);
+  const [loadingCancel, setLoadingCancel] = useState(false);
 
   useEffect(() => {
     if (appointment && isOpen) {
@@ -34,6 +38,46 @@ export function AppointmentDrawer({ appointment, isOpen, onClose }: AppointmentD
       console.error('Erro ao buscar dados do barbeiro:', error);
     } finally {
       setLoadingBarber(false);
+    }
+  };
+
+  const handleConfirmAppointment = async () => {
+    if (!appointment) return;
+
+    setLoadingConfirm(true);
+    try {
+      await api.patch(`scheduling/${appointment.id}`, {
+        status: 'confirmado'
+      });
+      
+      toast.success('Agendamento confirmado com sucesso!', { theme: "light" });
+      onStatusUpdate?.();
+      onClose();
+    } catch (error) {
+      console.error('Erro ao confirmar agendamento:', error);
+      toast.error('Erro ao confirmar agendamento', { theme: "light" });
+    } finally {
+      setLoadingConfirm(false);
+    }
+  };
+
+  const handleCancelAppointment = async () => {
+    if (!appointment) return;
+
+    setLoadingCancel(true);
+    try {
+      await api.patch(`scheduling/${appointment.id}`, {
+        status: 'cancelado'
+      });
+      
+      toast.success('Agendamento cancelado com sucesso!', { theme: "light" });
+      onStatusUpdate?.();
+      onClose();
+    } catch (error) {
+      console.error('Erro ao cancelar agendamento:', error);
+      toast.error('Erro ao cancelar agendamento', { theme: "light" });
+    } finally {
+      setLoadingCancel(false);
     }
   };
 
@@ -111,14 +155,29 @@ export function AppointmentDrawer({ appointment, isOpen, onClose }: AppointmentD
             </div>
 
             <div className="space-y-3">
-              <Button className="w-full bg-orange-600 hover:bg-orange-700">
-                Confirmar Agendamento
-              </Button>
+              {appointment.status === 'pendente' && (
+                <Button 
+                  onClick={handleConfirmAppointment}
+                  disabled={loadingConfirm}
+                  className="w-full bg-green-600 hover:bg-green-700"
+                >
+                  {loadingConfirm ? 'Confirmando...' : 'Confirmar Agendamento'}
+                </Button>
+              )}
+              
+              {appointment.status === 'confirmado' && (
+                <Button 
+                  onClick={handleCancelAppointment}
+                  disabled={loadingCancel}
+                  variant="outline" 
+                  className="w-full border-red-600 text-red-400 hover:bg-red-900"
+                >
+                  {loadingCancel ? 'Cancelando...' : 'Cancelar Agendamento'}
+                </Button>
+              )}
+
               <Button variant="outline" className="w-full border-zinc-600 text-zinc-300 hover:bg-zinc-800">
                 Editar Agendamento
-              </Button>
-              <Button variant="outline" className="w-full border-red-600 text-red-400 hover:bg-red-900">
-                Cancelar Agendamento
               </Button>
             </div>
           </div>

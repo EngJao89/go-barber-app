@@ -71,6 +71,10 @@ export function SchedulingList() {
     setSelectedAppointment(null);
   };
 
+  const handleStatusUpdate = () => {
+    fetchSchedulings();
+  };
+
   if (loading) {
     return <div className="text-zinc-400">Carregando agendamentos...</div>;
   }
@@ -132,6 +136,7 @@ export function SchedulingList() {
         appointment={selectedAppointment}
         isOpen={isDrawerOpen}
         onClose={handleCloseDrawer}
+        onStatusUpdate={handleStatusUpdate}
       />
     </div>
   );
