@@ -27,6 +27,17 @@ export function SchedulingList() {
     }
   };
 
+  const filterFutureSchedulings = (schedulings: Scheduling[]) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    return schedulings.filter(scheduling => {
+      const schedulingDate = new Date(scheduling.dayAt);
+      schedulingDate.setHours(0, 0, 0, 0);
+      return schedulingDate >= today;
+    });
+  };
+
   const groupSchedulingsByPeriod = (schedulings: Scheduling[]) => {
     const morning: Scheduling[] = [];
     const afternoon: Scheduling[] = [];
@@ -47,7 +58,8 @@ export function SchedulingList() {
     return { morning, afternoon, evening };
   };
 
-  const { morning, afternoon, evening } = groupSchedulingsByPeriod(schedulings);
+  const futureSchedulings = filterFutureSchedulings(schedulings);
+  const { morning, afternoon, evening } = groupSchedulingsByPeriod(futureSchedulings);
 
   const handleCardClick = (appointment: Scheduling) => {
     setSelectedAppointment(appointment);
@@ -123,4 +135,4 @@ export function SchedulingList() {
       />
     </div>
   );
-} 
+}
