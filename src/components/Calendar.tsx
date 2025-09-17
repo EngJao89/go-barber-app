@@ -5,9 +5,10 @@ import { SchedulingModal } from "./SchedulingModal";
 
 interface CalendarProps {
   userId: string;
+  onSchedulingCreated?: () => void;
 }
 
-export function Calendar({ userId }: CalendarProps) {
+export function Calendar({ userId, onSchedulingCreated }: CalendarProps) {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
@@ -25,6 +26,11 @@ export function Calendar({ userId }: CalendarProps) {
     }
   };
 
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedDate(undefined);
+  };
+
   return (
     <>
       <CalendarUI
@@ -40,9 +46,10 @@ export function Calendar({ userId }: CalendarProps) {
       
       <SchedulingModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
         selectedDate={selectedDate}
         userId={userId}
+        onSchedulingCreated={onSchedulingCreated}
       />
     </>
   );

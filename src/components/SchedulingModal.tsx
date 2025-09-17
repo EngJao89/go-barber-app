@@ -19,7 +19,6 @@ const schedulingSchema = z.object({
   dayAt: z.string().min(1, "Data é obrigatória"),
   hourAt: z.string().min(1, "Horário é obrigatório"),
   serviceType: z.string().min(1, "Tipo de serviço é obrigatório"),
-  status: z.string().min(1, "Status é obrigatório"),
 });
 
 export type SchedulingSchema = z.infer<typeof schedulingSchema>;
@@ -29,6 +28,7 @@ interface SchedulingModalProps {
   onClose: () => void;
   selectedDate?: Date;
   userId: string;
+  onSchedulingCreated?: () => void;
 }
 
 const availableHours = [
@@ -38,7 +38,16 @@ const availableHours = [
   "17:00", "17:30", "18:00", "18:30", "19:00", "19:30"
 ];
 
-export function SchedulingModal({ isOpen, onClose, selectedDate, userId }: SchedulingModalProps) {
+const serviceTypes = [
+  "Corte de Cabelo",
+  "Barba",
+  "Corte + Barba",
+  "Sobrancelha",
+  "Pigmentação",
+  "Relaxamento"
+];
+
+export function SchedulingModal({ isOpen, onClose, selectedDate, userId, onSchedulingCreated }: SchedulingModalProps) {
   const [loading, setLoading] = useState(false);
   const [barbers, setBarbers] = useState<Barber[]>([]);
   const [loadingBarbers, setLoadingBarbers] = useState(false);
@@ -51,26 +60,28 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId }: Sched
       dayAt: selectedDate ? selectedDate.toISOString().split('T')[0] : '',
       hourAt: '',
       serviceType: '',
-      status: 'pendente',
     },
   });
 
-  const { handleSubmit, setValue } = methods;
+  const { handleSubmit, setValue, reset } = methods;
 
   useEffect(() => {
     if (isOpen) {
+      console.log('Modal aberto, userId:', userId);
       fetchBarbers();
       if (selectedDate) {
         setValue('dayAt', selectedDate.toISOString().split('T')[0]);
       }
+      setValue('userId', userId);
     }
-  }, [isOpen, selectedDate, setValue]);
+  }, [isOpen, selectedDate, setValue, userId]);
 
   const fetchBarbers = async () => {
     setLoadingBarbers(true);
     try {
       const response = await api.get('barbers');
       setBarbers(response.data);
+      console.log('Barbeiros carregados:', response.data);
     } catch (error) {
       console.error('Erro ao buscar barbeiros:', error);
       toast.error('Erro ao carregar lista de barbeiros', { theme: "light" });
@@ -80,14 +91,38 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId }: Sched
   };
 
   const onSubmit = async (data: SchedulingSchema) => {
+    console.log('Dados do formulário:', data);
+    
+    if (!userId) {
+      toast.error('ID do usuário não encontrado. Faça login novamente.', { theme: "light" });
+      return;
+    }
+
     setLoading(true);
     try {
-      await api.post('scheduling', data);
+      const schedulingData = {
+        ...data,
+        userId: userId,
+        dayAt: data.dayAt + 'T' + data.hourAt + ':00',
+        status: 'pendente'
+      };
+      await api.post('scheduling', schedulingData);
+
       toast.success('Agendamento criado com sucesso!', { theme: "light" });
+      reset();
+      onSchedulingCreated?.();
       onClose();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Erro ao criar agendamento:', error);
-      toast.error('Erro ao criar agendamento', { theme: "light" });
+      
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as { response: { status: number; data: { message?: string; error?: string } } };
+        console.error('Erro da API - Status:', axiosError.response.status);
+        console.error('Erro da API - Data:', axiosError.response.data);
+        toast.error(`Erro: ${axiosError.response.data.message || axiosError.response.data.error || 'Erro ao criar agendamento'}`, { theme: "light" });
+      } else {
+        toast.error('Erro ao criar agendamento', { theme: "light" });
+      }
     } finally {
       setLoading(false);
     }
@@ -128,7 +163,7 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId }: Sched
                           <SelectContent>
                             {barbers.map((barber) => (
                               <SelectItem key={barber.id} value={barber.id}>
-                                {barber.name}
+                                {barber.name} - {barber.barbershop}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -195,29 +230,19 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId }: Sched
                     <FormControl>
                       <div className="relative">
                         <Scissors className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400" size={20} />
-                        <Input
-                          {...field}
-                          placeholder="Tipo de serviço (ex: Corte, Barba)"
-                          className="pl-10 bg-zinc-800 border-zinc-600 text-zinc-100 placeholder-zinc-400"
-                        />
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <SelectTrigger className="pl-10 bg-zinc-800 border-zinc-600 text-zinc-100">
+                            <SelectValue placeholder="Selecione o tipo de serviço" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {serviceTypes.map((service) => (
+                              <SelectItem key={service} value={service}>
+                                {service}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={methods.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Status (pendente, confirmado, cancelado)"
-                        className="bg-zinc-800 border-zinc-600 text-zinc-100 placeholder-zinc-400"
-                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -227,8 +252,8 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId }: Sched
               <div className="flex gap-3 pt-4">
                 <Button
                   type="submit"
-                  disabled={loading}
-                  className="flex-1 bg-orange-600 hover:bg-orange-700"
+                  disabled={loading || !userId}
+                  className="flex-1 bg-orange-600 hover:bg-orange-700 disabled:opacity-50"
                 >
                   {loading ? 'Criando...' : 'Criar Agendamento'}
                 </Button>
