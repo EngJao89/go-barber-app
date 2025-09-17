@@ -11,6 +11,7 @@ import { Calendar } from "@/components/Calendar";
 export default function DashboardUser() {
   const currentDate = getCurrentDate();
   const [userId, setUserId] = useState<string>('');
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     fetchUserId();
@@ -33,6 +34,10 @@ export default function DashboardUser() {
     }
   };
 
+  const handleSchedulingCreated = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
   return(
     <div>
       <HeaderUser />
@@ -46,10 +51,13 @@ export default function DashboardUser() {
       <div className="m-6 flex gap-8">
         <div className="flex-1">
           <h1 className="text-zinc-500 text-xl font-bold mb-4">Meus Agendamentos</h1>
-          <SchedulingList />
+          <SchedulingList key={refreshKey} />
         </div>
         <div className="w-1/2 h-fit flex justify-center">
-          <Calendar userId={userId} />
+          <Calendar 
+            userId={userId} 
+            onSchedulingCreated={handleSchedulingCreated}
+          />
         </div>
       </div>
     </div>

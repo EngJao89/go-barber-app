@@ -2,17 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { X, Clock, User, Calendar } from "lucide-react";
+import { toast } from "react-toastify";
+
 import { Scheduling } from "@/@types/scheduling";
 import { Barber } from "@/@types/barbers";
-import { Button } from "./ui/button";
-import { toast } from "react-toastify";
 import api from "@/lib/axios";
+import { Button } from "./ui/button";
 
 interface AppointmentDrawerProps {
   appointment: Scheduling | null;
   isOpen: boolean;
   onClose: () => void;
-  onStatusUpdate?: () => void; // Callback para atualizar a lista após mudança de status
+  onStatusUpdate?: () => void;
 }
 
 export function AppointmentDrawer({ appointment, isOpen, onClose, onStatusUpdate }: AppointmentDrawerProps) {
