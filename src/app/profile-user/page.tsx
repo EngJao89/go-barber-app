@@ -70,7 +70,7 @@ export default function ProfileUser() {
 
     } catch (error) {
       console.error('Erro ao buscar dados do usuário:', error);
-      toast.error('Erro ao carregar dados do usuário', { theme: "light" });
+      toast.error('Erro ao carregar dados do usuário', { theme: "dark" });
     } finally {
       setLoading(false);
     }
@@ -91,11 +91,11 @@ export default function ProfileUser() {
 
       await api.patch(`users/${userData?.id}`, data, { headers });
       
-      toast.success('Perfil atualizado com sucesso!', { theme: "light" });
+      toast.success('Perfil atualizado com sucesso!', { theme: "dark" });
       
     } catch (error) {
       console.error('Erro ao atualizar perfil:', error);
-      toast.error('Erro ao atualizar perfil', { theme: "light" });
+      toast.error('Erro ao atualizar perfil', { theme: "dark" });
     }
   };
 

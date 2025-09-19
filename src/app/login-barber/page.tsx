@@ -50,7 +50,7 @@ export default function LoginBarber(){
     const onSubmit = async (data: LoginSchema) => {
     try {
       if (!data.email || !data.password) {
-        toast.warning('Por favor, forneça o nome de barbeiro e a senha', {theme: "light"});
+        toast.warning('Por favor, forneça o nome de barbeiro e a senha', {theme: "dark"});
         throw new Error('Por favor, forneça o nome de barbeiro e a senha');
       }
 
@@ -59,18 +59,18 @@ export default function LoginBarber(){
       if (response.data.accessToken) {
         localStorage.setItem('authBarberToken', response.data.accessToken);
         setBarberToken(response.data.accessToken)
-        toast.success(`Barbeiro Logado: ${data.email}, Seja Bem vindo!`, {theme: "light"})
+        toast.success(`Barbeiro Logado: ${data.email}, Seja Bem vindo!`, {theme: "dark"})
         router.push('/dashboard-barber');
       } else {
-        toast.error('Token não encontrado na resposta', {theme: "light"})
+        toast.error('Token não encontrado na resposta', {theme: "dark"})
         throw new Error('Token não encontrado na resposta');
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = 'Login falhou. Por favor, verifique suas credenciais e tente novamente.';
-        toast.error(axiosError, {theme: "light"});
+        toast.error(axiosError, {theme: "dark"});
       } else {
-        toast.error('Ocorreu um erro inesperado. Tente novamente mais tarde.', {theme: "light"});
+        toast.error('Ocorreu um erro inesperado. Tente novamente mais tarde.', {theme: "dark"});
       }
     }
   };

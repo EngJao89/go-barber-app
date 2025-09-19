@@ -84,7 +84,7 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId, onSched
       console.log('Barbeiros carregados:', response.data);
     } catch (error) {
       console.error('Erro ao buscar barbeiros:', error);
-      toast.error('Erro ao carregar lista de barbeiros', { theme: "light" });
+      toast.error('Erro ao carregar lista de barbeiros', { theme: "dark" });
     } finally {
       setLoadingBarbers(false);
     }
@@ -94,7 +94,7 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId, onSched
     console.log('Dados do formulário:', data);
     
     if (!userId) {
-      toast.error('ID do usuário não encontrado. Faça login novamente.', { theme: "light" });
+      toast.error('ID do usuário não encontrado. Faça login novamente.', { theme: "dark" });
       return;
     }
 
@@ -108,7 +108,7 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId, onSched
       };
       await api.post('scheduling', schedulingData);
 
-      toast.success('Agendamento criado com sucesso!', { theme: "light" });
+      toast.success('Agendamento criado com sucesso!', { theme: "dark" });
       reset();
       onSchedulingCreated?.();
       onClose();
@@ -119,9 +119,9 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId, onSched
         const axiosError = error as { response: { status: number; data: { message?: string; error?: string } } };
         console.error('Erro da API - Status:', axiosError.response.status);
         console.error('Erro da API - Data:', axiosError.response.data);
-        toast.error(`Erro: ${axiosError.response.data.message || axiosError.response.data.error || 'Erro ao criar agendamento'}`, { theme: "light" });
+        toast.error(`Erro: ${axiosError.response.data.message || axiosError.response.data.error || 'Erro ao criar agendamento'}`, { theme: "dark" });
       } else {
-        toast.error('Erro ao criar agendamento', { theme: "light" });
+        toast.error('Erro ao criar agendamento', { theme: "dark" });
       }
     } finally {
       setLoading(false);

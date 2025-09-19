@@ -73,7 +73,7 @@ export default function ProfileBarber() {
 
     } catch (error) {
       console.error('Erro ao buscar dados do barbeiro:', error);
-      toast.error('Erro ao carregar dados do barbeiro', { theme: "light" });
+      toast.error('Erro ao carregar dados do barbeiro', { theme: "dark" });
     } finally {
       setLoading(false);
     }
@@ -94,11 +94,11 @@ export default function ProfileBarber() {
 
       await api.patch(`barbers/${barberData?.id}`, data, { headers });
       
-      toast.success('Perfil atualizado com sucesso!', { theme: "light" });
+      toast.success('Perfil atualizado com sucesso!', { theme: "dark" });
       
     } catch (error) {
       console.error('Erro ao atualizar perfil:', error);
-      toast.error('Erro ao atualizar perfil', { theme: "light" });
+      toast.error('Erro ao atualizar perfil', { theme: "dark" });
     }
   };
 
