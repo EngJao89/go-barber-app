@@ -51,12 +51,12 @@ export function AppointmentDrawer({ appointment, isOpen, onClose, onStatusUpdate
         status: 'confirmado'
       });
       
-      toast.success('Agendamento confirmado com sucesso!', { theme: "light" });
+      toast.success('Agendamento confirmado com sucesso!', { theme: "dark" });
       onStatusUpdate?.();
       onClose();
     } catch (error) {
       console.error('Erro ao confirmar agendamento:', error);
-      toast.error('Erro ao confirmar agendamento', { theme: "light" });
+      toast.error('Erro ao confirmar agendamento', { theme: "dark" });
     } finally {
       setLoadingConfirm(false);
     }
@@ -71,12 +71,12 @@ export function AppointmentDrawer({ appointment, isOpen, onClose, onStatusUpdate
         status: 'cancelado'
       });
       
-      toast.success('Agendamento cancelado com sucesso!', { theme: "light" });
+      toast.success('Agendamento cancelado com sucesso!', { theme: "dark" });
       onStatusUpdate?.();
       onClose();
     } catch (error) {
       console.error('Erro ao cancelar agendamento:', error);
-      toast.error('Erro ao cancelar agendamento', { theme: "light" });
+      toast.error('Erro ao cancelar agendamento', { theme: "dark" });
     } finally {
       setLoadingCancel(false);
     }

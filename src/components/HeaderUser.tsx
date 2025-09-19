@@ -28,7 +28,7 @@ export function HeaderUser() {
   function handleLogout() {
     localStorage.removeItem('authUserToken');
     setUserToken(null);
-    toast.warn('Você saiu! Até breve...', { theme: "light" });
+    toast.warn('Você saiu! Até breve...', { theme: "dark" });
     router.replace('/login-barber');
   }
 
@@ -55,14 +55,14 @@ export function HeaderUser() {
           if (axiosError.response.status === 401 || axiosError.response.data.error === 'Invalid Token') {
             handleLogout();
           }
-          toast.error(`Error fetching user data: ${axiosError.response.data.message}`, { theme: "light" });
+          toast.error(`Error fetching user data: ${axiosError.response.data.message}`, { theme: "dark" });
         } else if (axiosError.request) {
-          toast.error('Error fetching user data. No response from server.', { theme: "light" });
+          toast.error('Error fetching user data. No response from server.', { theme: "dark" });
         } else {
-          toast.error(`Error fetching user data: ${axiosError.message}`, { theme: "light" });
+          toast.error(`Error fetching user data: ${axiosError.message}`, { theme: "dark" });
         }
       } else {
-        toast.error(`Unexpected error: ${error}`, { theme: "light" });
+        toast.error(`Unexpected error: ${error}`, { theme: "dark" });
       }
     }
   }, [userToken, router]);
