@@ -64,8 +64,8 @@ export default function Home() {
         toast.success(`Usuário Logado: ${data.email}, Seja Bem vindo!`, {theme: "dark"})
         router.push('/dashboard-user');
       } else {
-        toast.error('Token não encontrado na resposta', {theme: "dark"})
-        throw new Error('Token não encontrado na resposta');
+        toast.error('Token não encontrado na resposta. Faça loguin novamente', {theme: "dark"})
+        throw new Error('Token não encontrado na resposta. Faça loguin novamente');
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
