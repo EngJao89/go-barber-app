@@ -1,12 +1,15 @@
 import axios from 'axios'
+import { getApiConfig } from '@/config/environment'
+
+const config = getApiConfig();
 
 const api = axios.create({
-  baseURL: 'https://api-gb-vowe.onrender.com/',
+  baseURL: config.baseURL,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
-  timeout: 10000,
+  timeout: config.timeout,
 });
 
 api.interceptors.request.use(
@@ -16,7 +19,7 @@ api.interceptors.request.use(
   },
   (error) => {
     console.error('❌ Erro na requisição:', error);
-    return Promise.reject(error);
+    return Promise.reject(error instanceof Error ? error : new Error(String(error)));
   }
 );
 
@@ -27,7 +30,7 @@ api.interceptors.response.use(
   },
   (error) => {
     console.error('❌ Erro na resposta:', error.response?.status, error.response?.data, error.message);
-    return Promise.reject(error);
+    return Promise.reject(error instanceof Error ? error : new Error(String(error)));
   }
 );
 

@@ -2,12 +2,18 @@
   "name": "go-barber-app",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:local": "node scripts/set-env.js dev && next dev --turbopack",
+    "dev:prod": "node scripts/set-env.js prod && next dev --turbopack",
     "build": "next build",
+    "build:prod": "node scripts/set-env.js prod && next build",
     "start": "next start",
     "lint": "next lint",
-    "commit": "cz"
+    "commit": "cz",
+    "env:dev": "node scripts/set-env.js dev",
+    "env:prod": "node scripts/set-env.js prod"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
