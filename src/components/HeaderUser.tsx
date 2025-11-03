@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { FaPowerOff } from "react-icons/fa";
+import { FiClock } from "react-icons/fi";
 import axios, { AxiosError } from "axios";
 
 import logoHeader from "../../public/logo-header.png"
@@ -90,6 +91,10 @@ export function HeaderUser() {
     router.push('/dashboard-user');
   };
 
+  const handleHistoryClick = () => {
+    router.push('/history-user');
+  };
+
   return(
     <nav className="bg-zinc-900 bg-opacity-30 backdrop-blur-lg min-h-[80px]">
       <div className="w-full h-full px-6 py-4">
@@ -122,9 +127,19 @@ export function HeaderUser() {
             </div>
           </div>
 
-          <Button onClick={handleLogout}>
-            <FaPowerOff color="gray" size={32}/>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              onClick={handleHistoryClick}
+              className="text-zinc-400 hover:text-zinc-100"
+              title="Histórico de Agendamentos"
+            >
+              <FiClock size={24} />
+            </Button>
+            <Button onClick={handleLogout}>
+              <FaPowerOff color="gray" size={32}/>
+            </Button>
+          </div>
         </div>
       </div>
     </nav>
