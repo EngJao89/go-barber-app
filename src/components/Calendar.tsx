@@ -4,7 +4,7 @@ import { Calendar as CalendarUI } from "@/components/ui/calendar";
 import { SchedulingModal } from "./SchedulingModal";
 
 interface CalendarProps {
-  userId: string;
+  userId?: string;
   onSchedulingCreated?: () => void;
 }
 
@@ -20,7 +20,7 @@ export function Calendar({ userId, onSchedulingCreated }: CalendarProps) {
   };
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
-    if (selectedDate && !isDateDisabled(selectedDate)) {
+    if (selectedDate && !isDateDisabled(selectedDate) && userId) {
       setSelectedDate(selectedDate);
       setIsModalOpen(true);
     }
@@ -44,13 +44,15 @@ export function Calendar({ userId, onSchedulingCreated }: CalendarProps) {
         className="rounded-lg border border-white text-white cursor-pointer"
       />
       
-      <SchedulingModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        selectedDate={selectedDate}
-        userId={userId}
-        onSchedulingCreated={onSchedulingCreated}
-      />
+      {userId && (
+        <SchedulingModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          selectedDate={selectedDate}
+          userId={userId}
+          onSchedulingCreated={onSchedulingCreated}
+        />
+      )}
     </>
   );
 }
