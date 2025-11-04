@@ -5,6 +5,7 @@ import Image from "next/image"
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { FaPowerOff } from "react-icons/fa";
+import { FiClock } from "react-icons/fi";
 import axios, { AxiosError } from "axios";
 
 import logoHeader from "../../public/logo-header.png"
@@ -18,12 +19,12 @@ export function HeaderBarber() {
   const router = useRouter();
   const { barberToken, setBarberToken } = useAuth();
 
-  function handleLogout() {
+  const handleLogout = useCallback(() => {
     localStorage.removeItem('authBarberToken');
     setBarberToken(null);
     toast.warn('Você saiu! Até breve...', { theme: "dark" });
     router.replace('/login-barber');
-  }
+  }, [setBarberToken, router]);
 
   const fetchBarberData = useCallback(async () => {
     try {
@@ -58,7 +59,7 @@ export function HeaderBarber() {
         toast.error(`Unexpected error: ${error}`, { theme: "dark" });
       }
     }
-  }, [barberToken, router]);
+  }, [barberToken, router, handleLogout]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('authBarberToken');
@@ -81,6 +82,10 @@ export function HeaderBarber() {
 
   const handleLogoClick = () => {
     router.push('/dashboard-barber');
+  };
+
+  const handleHistoryClick = () => {
+    router.push('/history-barber');
   };
 
   return(
@@ -115,9 +120,19 @@ export function HeaderBarber() {
             </div>
           </div>
 
-          <Button onClick={handleLogout}>
-            <FaPowerOff color="gray" size={32}/>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              onClick={handleHistoryClick}
+              className="text-zinc-400 hover:text-zinc-100"
+              title="Histórico de Agendamentos"
+            >
+              <FiClock size={24} />
+            </Button>
+            <Button onClick={handleLogout}>
+              <FaPowerOff color="gray" size={32}/>
+            </Button>
+          </div>
         </div>
       </div>
     </nav>
