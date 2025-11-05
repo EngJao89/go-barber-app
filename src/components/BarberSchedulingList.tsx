@@ -1,28 +1,30 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import api from "@/lib/axios";
 import { BarberScheduling } from "@/@types/barberScheduling";
 import { BarberSchedulingCard } from "./BarberSchedulingCard";
+import { toast } from "react-toastify";
 
 export function BarberSchedulingList() {
   const [barberScheduling, setBarberScheduling] = useState<BarberScheduling[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchBarberSchedulings();
-  }, []);
-
-  const fetchBarberSchedulings = async () => {
+  const fetchBarberSchedulings = useCallback(async () => {
     try {
       const response = await api.get('barber-availability');
       setBarberScheduling(response.data);
     } catch (error) {
-      console.error('Erro ao buscar agendamentos:', error);
+      console.error('Erro ao buscar horários disponíveis:', error);
+      toast.error('Erro ao carregar horários disponíveis', { theme: "dark" });
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchBarberSchedulings();
+  }, [fetchBarberSchedulings]);
 
   const groupSchedulingsByPeriod = (barberSchedulings: BarberScheduling[]) => {
     const morning: BarberScheduling[] = [];
