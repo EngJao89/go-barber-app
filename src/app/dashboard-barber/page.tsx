@@ -6,6 +6,7 @@ import { HeaderBarber } from "@/components/HeaderBarber";
 import { BarberSchedulingList } from "@/components/BarberSchedulingList";
 import { BarberNextAppointment } from "@/components/BarberNextAppointment";
 import { BarberAppointmentsList } from "@/components/BarberAppointmentsList";
+import { BarberPendingAppointments } from "@/components/BarberPendingAppointments";
 import { Calendar } from "@/components/Calendar";
 import api from "@/lib/axios";
 
@@ -53,6 +54,11 @@ export default function DashboardBarber() {
           <h1 className="text-zinc-500 text-xl font-bold mb-4">Agendamentos Confirmados</h1>
           {barberId && <BarberAppointmentsList barberId={barberId} />}
         </div>
+      </div>
+
+      <div className="m-6">
+        <h1 className="text-zinc-500 text-xl font-bold mb-4">Agendamentos a Confirmar</h1>
+        {barberId && <BarberPendingAppointments barberId={barberId} />}
       </div>
 
       <div className="m-6 flex gap-8">

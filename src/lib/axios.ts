@@ -14,6 +14,15 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
+    const userToken = localStorage.getItem('authUserToken');
+    const barberToken = localStorage.getItem('authBarberToken');
+    
+    if (userToken) {
+      config.headers.Authorization = `Bearer ${userToken}`;
+    } else if (barberToken) {
+      config.headers.Authorization = `Bearer ${barberToken}`;
+    }
+    
     console.log('🚀 Requisição:', config.method?.toUpperCase(), config.url);
     return config;
   },
