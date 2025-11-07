@@ -13,10 +13,11 @@ export function BarberSchedulingList() {
   const fetchBarberSchedulings = useCallback(async () => {
     try {
       const response = await api.get('barber-availability');
-      
+
       if (Array.isArray(response.data)) {
         setBarberScheduling(response.data);
       } else {
+        console.warn('Resposta não é um array:', response.data);
         setBarberScheduling([]);
       }
     } catch (error: unknown) {
@@ -25,8 +26,9 @@ export function BarberSchedulingList() {
       if (error && typeof error === 'object' && 'response' in error) {
         const axiosError = error as { response: { status: number; data: { message?: string; error?: string } } };
         
+        console.error('Status do erro:', axiosError.response.status);
+        console.error('Data do erro:', axiosError.response.data);
         if (axiosError.response.status === 401) {
-          // O interceptor já vai redirecionar, apenas não mostrar toast duplicado
           console.warn('Token inválido. Redirecionando...');
         } else {
           toast.error(

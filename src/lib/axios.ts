@@ -20,10 +20,8 @@ api.interceptors.request.use(
       
       if (userToken) {
         config.headers.Authorization = `Bearer ${userToken}`;
-        console.log('🚀 Requisição (User):', config.method?.toUpperCase(), config.url);
       } else if (barberToken) {
         config.headers.Authorization = `Bearer ${barberToken}`;
-        console.log('🚀 Requisição (Barber):', config.method?.toUpperCase(), config.url);
       } else {
         console.warn('⚠️ Nenhum token encontrado para a requisição:', config.url);
       }
@@ -39,7 +37,6 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   (response) => {
-    console.log('✅ Resposta:', response.status, response.config.url);
     return response;
   },
   (error) => {

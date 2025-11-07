@@ -21,17 +21,26 @@ export default function DashboardBarber() {
   const fetchBarberId = async () => {
     try {
       const token = localStorage.getItem('authBarberToken');
-      if (!token) return;
+      if (!token) {
+        console.warn('Token do barbeiro não encontrado');
+        return;
+      }
 
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      };
+      const response = await api.post('auth-barber/me', {});
 
-      const response = await api.post('auth-barber/me', {}, { headers });
-      setBarberId(response.data.id);
-    } catch (error) {
+      if (response.data?.id) {
+        setBarberId(response.data.id);
+      } else {
+        console.error('ID do barbeiro não encontrado na resposta:', response.data);
+      }
+    } catch (error: unknown) {
       console.error('Erro ao buscar ID do barbeiro:', error);
+      
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as { response: { status: number; data: { message?: string; error?: string } } };
+        console.error('Status:', axiosError.response.status);
+        console.error('Data:', axiosError.response.data);
+      }
     }
   };
 

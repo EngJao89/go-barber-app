@@ -17,15 +17,36 @@ export function BarberAppointmentsList({ barberId }: BarberAppointmentsListProps
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const fetchSchedulings = useCallback(async () => {
+    if (!barberId) {
+      console.warn('BarberId não disponível para buscar agendamentos');
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await api.get('scheduling');
+
+      if (!Array.isArray(response.data)) {
+        console.error('Resposta da API não é um array:', response.data);
+        setSchedulings([]);
+        setLoading(false);
+        return;
+      }
 
       const barberSchedulings = response.data.filter((scheduling: Scheduling) => 
         scheduling.barberId === barberId
       );
       setSchedulings(barberSchedulings);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Erro ao buscar agendamentos:', error);
+      
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as { response: { status: number; data: { message?: string; error?: string } } };
+        console.error('Status:', axiosError.response.status);
+        console.error('Data:', axiosError.response.data);
+      }
+
+      setSchedulings([]);
     } finally {
       setLoading(false);
     }
