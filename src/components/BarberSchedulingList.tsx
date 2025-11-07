@@ -13,10 +13,32 @@ export function BarberSchedulingList() {
   const fetchBarberSchedulings = useCallback(async () => {
     try {
       const response = await api.get('barber-availability');
-      setBarberScheduling(response.data);
-    } catch (error) {
+      
+      if (Array.isArray(response.data)) {
+        setBarberScheduling(response.data);
+      } else {
+        setBarberScheduling([]);
+      }
+    } catch (error: unknown) {
       console.error('Erro ao buscar horários disponíveis:', error);
-      toast.error('Erro ao carregar horários disponíveis', { theme: "dark" });
+      
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as { response: { status: number; data: { message?: string; error?: string } } };
+        
+        if (axiosError.response.status === 401) {
+          // O interceptor já vai redirecionar, apenas não mostrar toast duplicado
+          console.warn('Token inválido. Redirecionando...');
+        } else {
+          toast.error(
+            `Erro ${axiosError.response.status}: ${axiosError.response.data.message || axiosError.response.data.error || 'Erro ao carregar horários disponíveis'}`,
+            { theme: "dark" }
+          );
+        }
+      } else {
+        toast.error('Erro ao carregar horários disponíveis', { theme: "dark" });
+      }
+      
+      setBarberScheduling([]);
     } finally {
       setLoading(false);
     }
@@ -31,67 +53,70 @@ export function BarberSchedulingList() {
     const afternoon: BarberScheduling[] = [];
     const evening: BarberScheduling[] = [];
 
-    barberSchedulings.forEach(barberSchedulings => {
-      const hour = parseInt(barberSchedulings.startTime.split(':')[0]);
+    for (const scheduling of barberSchedulings) {
+      const hour = Number.parseInt(scheduling.startTime.split(':')[0], 10);
       
       if (hour >= 6 && hour < 12) {
-        morning.push(barberSchedulings);
+        morning.push(scheduling);
       } else if (hour >= 12 && hour < 18) {
-        afternoon.push(barberSchedulings);
+        afternoon.push(scheduling);
       } else {
-        evening.push(barberSchedulings);
+        evening.push(scheduling);
       }
-    });
+    }
 
     return { morning, afternoon, evening };
   };
 
   const { morning, afternoon, evening } = groupSchedulingsByPeriod(barberScheduling);
+  const hasAnyScheduling = morning.length > 0 || afternoon.length > 0 || evening.length > 0;
 
   if (loading) {
     return <div className="text-zinc-400">Carregando agendamentos...</div>;
   }
 
+  if (!hasAnyScheduling) {
+    return (
+      <div className="text-zinc-500 text-sm text-center py-8">
+        Nenhum horário disponível
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
-      <div>
-        <h2 className="text-zinc-300 text-lg font-semibold mb-2">Manhã</h2>
-        <div className="space-y-1">
-          {morning.length > 0 ? (
-            morning.map((scheduling) => (
+      {morning.length > 0 && (
+        <div>
+          <h2 className="text-zinc-300 text-lg font-semibold mb-2">Manhã</h2>
+          <div className="space-y-1">
+            {morning.map((scheduling) => (
               <BarberSchedulingCard key={scheduling.id} scheduling={scheduling} />
-            ))
-          ) : (
-            <p className="text-zinc-500 text-sm">Nenhum horário pela manhã</p>
-          )}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      <div>
-        <h2 className="text-zinc-300 text-lg font-semibold mb-2">Tarde</h2>
-        <div className="space-y-1">
-          {afternoon.length > 0 ? (
-            afternoon.map((scheduling) => (
+      {afternoon.length > 0 && (
+        <div>
+          <h2 className="text-zinc-300 text-lg font-semibold mb-2">Tarde</h2>
+          <div className="space-y-1">
+            {afternoon.map((scheduling) => (
               <BarberSchedulingCard key={scheduling.id} scheduling={scheduling} />
-            ))
-          ) : (
-            <p className="text-zinc-500 text-sm">Nenhum horário pela tarde</p>
-          )}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      <div>
-        <h2 className="text-zinc-300 text-lg font-semibold mb-2">Noite</h2>
-        <div className="space-y-1">
-          {evening.length > 0 ? (
-            evening.map((scheduling) => (
+      {evening.length > 0 && (
+        <div>
+          <h2 className="text-zinc-300 text-lg font-semibold mb-2">Noite</h2>
+          <div className="space-y-1">
+            {evening.map((scheduling) => (
               <BarberSchedulingCard key={scheduling.id} scheduling={scheduling} />
-            ))
-          ) : (
-            <p className="text-zinc-500 text-sm">Nenhum horário pela noite</p>
-          )}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
