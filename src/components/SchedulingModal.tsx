@@ -67,7 +67,6 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId, onSched
 
   useEffect(() => {
     if (isOpen) {
-      console.log('Modal aberto, userId:', userId);
       fetchBarbers();
       if (selectedDate) {
         setValue('dayAt', selectedDate.toISOString().split('T')[0]);
@@ -81,7 +80,6 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId, onSched
     try {
       const response = await api.get('barbers');
       setBarbers(response.data);
-      console.log('Barbeiros carregados:', response.data);
     } catch (error) {
       console.error('Erro ao buscar barbeiros:', error);
       toast.error('Erro ao carregar lista de barbeiros', { theme: "dark" });
@@ -91,8 +89,6 @@ export function SchedulingModal({ isOpen, onClose, selectedDate, userId, onSched
   };
 
   const onSubmit = async (data: SchedulingSchema) => {
-    console.log('Dados do formulário:', data);
-    
     if (!userId) {
       toast.error('ID do usuário não encontrado. Faça login novamente.', { theme: "dark" });
       return;

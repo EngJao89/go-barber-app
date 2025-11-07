@@ -29,31 +29,30 @@ export function HeaderBarber() {
   const fetchBarberData = useCallback(async () => {
     try {
       if (!barberToken) {
+        console.warn('Token do barbeiro não encontrado no HeaderBarber');
         router.push('/login-barber');
         return;
       }
 
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${barberToken}`,
-      };
-
-      const response = await api.post<Barber>('auth-barber/me', {}, { headers });
+      const response = await api.post<Barber>('auth-barber/me', {});
       setBarberData(response.data);
-
       localStorage.setItem('userData', JSON.stringify(response.data));
     } catch (error: unknown) {
+      console.error('HeaderBarber: Erro ao buscar dados do barbeiro:', error);
+      
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<{ message: string; error: string }>;
         if (axiosError.response) {
           if (axiosError.response.status === 401 || axiosError.response.data.error === 'Invalid Token') {
+            console.warn('HeaderBarber: Token inválido, fazendo logout...');
             handleLogout();
+          } else {
+            toast.error(`Error fetching barber data: ${axiosError.response.data.message}`, { theme: "dark" });
           }
-          toast.error(`Error fetching barber data: ${axiosError.response.data.message}`, { theme: "dark" });
         } else if (axiosError.request) {
           toast.error('Error fetching barber data. No response from server.', { theme: "dark" });
         } else {
-          toast.error(`Error fetching user data: ${axiosError.message}`, { theme: "dark" });
+          toast.error(`Error fetching barber data: ${axiosError.message}`, { theme: "dark" });
         }
       } else {
         toast.error(`Unexpected error: ${error}`, { theme: "dark" });

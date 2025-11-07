@@ -25,9 +25,7 @@ export function BarberPendingAppointments({ barberId }: BarberPendingAppointment
     }
 
     try {
-      console.log('Buscando agendamentos pendentes para barbeiro:', barberId);
       const response = await api.get('scheduling');
-      console.log('Total de agendamentos recebidos:', response.data?.length || 0);
 
       if (!Array.isArray(response.data)) {
         console.error('Resposta da API não é um array:', response.data);
@@ -35,25 +33,11 @@ export function BarberPendingAppointments({ barberId }: BarberPendingAppointment
         return;
       }
 
-      // Filtrar agendamentos do barbeiro com status pendente
       const barberSchedulings = response.data.filter((scheduling: Scheduling) => {
         const matchesBarber = scheduling.barberId === barberId;
-        const isPending = scheduling.status === 'pendente';
-        
-        if (matchesBarber && isPending) {
-          console.log('Agendamento pendente encontrado:', {
-            id: scheduling.id,
-            barberId: scheduling.barberId,
-            status: scheduling.status,
-            dayAt: scheduling.dayAt,
-            hourAt: scheduling.hourAt
-          });
-        }
-        
-        return matchesBarber && isPending;
+
+        return matchesBarber;
       });
-      
-      console.log(`Total de agendamentos pendentes para barbeiro ${barberId}:`, barberSchedulings.length);
 
       const today = new Date();
       const futureSchedulings = barberSchedulings.filter((scheduling: Scheduling) => {
@@ -66,11 +50,10 @@ export function BarberPendingAppointments({ barberId }: BarberPendingAppointment
         const dateB = new Date(`${b.dayAt}T${b.hourAt}`);
         return dateA.getTime() - dateB.getTime();
       });
-      
+
       setSchedulings(sorted);
-      console.log('Agendamentos pendentes encontrados:', sorted.length);
     } catch (error: unknown) {
-      console.error('Erro ao buscar agendamentos pendentes:', error);
+      console.error('Erro ao buscar agendamentos:', error);
       
       if (error && typeof error === 'object' && 'response' in error) {
         const axiosError = error as { response: { status: number; data: { message?: string; error?: string } } };
@@ -82,7 +65,7 @@ export function BarberPendingAppointments({ barberId }: BarberPendingAppointment
           { theme: "dark" }
         );
       } else {
-        toast.error('Erro ao buscar agendamentos pendentes', { theme: "dark" });
+        toast.error('Erro ao buscar agendamentos', { theme: "dark" });
       }
     } finally {
       setLoading(false);
@@ -110,7 +93,7 @@ export function BarberPendingAppointments({ barberId }: BarberPendingAppointment
   };
 
   if (loading) {
-    return <div className="text-zinc-400">Carregando agendamentos pendentes...</div>;
+    return <div className="text-zinc-400">Carregando agendamentos...</div>;
   }
 
   return (
@@ -124,7 +107,7 @@ export function BarberPendingAppointments({ barberId }: BarberPendingAppointment
           />
         ))
       ) : (
-        <p className="text-zinc-500 text-sm">Nenhum agendamento pendente</p>
+        <p className="text-zinc-500 text-sm">Nenhum agendamento encontrado</p>
       )}
 
       <AppointmentDrawer
