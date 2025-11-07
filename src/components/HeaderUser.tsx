@@ -30,7 +30,7 @@ export function HeaderUser() {
     localStorage.removeItem('authUserToken');
     setUserToken(null);
     toast.warn('Você saiu! Até breve...', { theme: "dark" });
-    router.replace('/login-user');
+    router.replace('/');
   }
 
   const fetchUserData = useCallback(async () => {
