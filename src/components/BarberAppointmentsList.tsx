@@ -33,9 +33,13 @@ export function BarberAppointmentsList({ barberId }: BarberAppointmentsListProps
         return;
       }
 
-      const barberSchedulings = response.data.filter((scheduling: Scheduling) => 
-        scheduling.barberId === barberId
-      );
+      const barberSchedulings = response.data.filter((scheduling: Scheduling) => {
+        const matchesBarber = String(scheduling.barberId) === String(barberId);
+        const isConfirmed = scheduling.status === 'confirmado';
+
+        return matchesBarber && isConfirmed;
+      });
+
       setSchedulings(barberSchedulings);
     } catch (error: unknown) {
       console.error('Erro ao buscar agendamentos:', error);
@@ -60,17 +64,13 @@ export function BarberAppointmentsList({ barberId }: BarberAppointmentsListProps
 
   const filterConfirmedSchedulings = (schedulings: Scheduling[]) => {
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
 
     return schedulings.filter(scheduling => {
-      if (scheduling.status !== 'confirmado') return false;
-      
-      const schedulingDate = new Date(scheduling.dayAt);
-      schedulingDate.setHours(0, 0, 0, 0);
-      return schedulingDate >= today;
+      const schedulingDateTime = new Date(scheduling.dayAt);
+      return schedulingDateTime >= today;
     }).sort((a, b) => {
-      const dateA = new Date(`${a.dayAt}T${a.hourAt}`);
-      const dateB = new Date(`${b.dayAt}T${b.hourAt}`);
+      const dateA = new Date(a.dayAt);
+      const dateB = new Date(b.dayAt);
       return dateA.getTime() - dateB.getTime();
     });
   };

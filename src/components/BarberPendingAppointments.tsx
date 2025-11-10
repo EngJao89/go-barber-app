@@ -34,20 +34,21 @@ export function BarberPendingAppointments({ barberId }: BarberPendingAppointment
       }
 
       const barberSchedulings = response.data.filter((scheduling: Scheduling) => {
-        const matchesBarber = scheduling.barberId === barberId;
+        const matchesBarber = String(scheduling.barberId) === String(barberId);
+        const isPending = scheduling.status === 'pendente';
 
-        return matchesBarber;
+        return matchesBarber && isPending;
       });
 
       const today = new Date();
       const futureSchedulings = barberSchedulings.filter((scheduling: Scheduling) => {
-        const schedulingDateTime = new Date(`${scheduling.dayAt}T${scheduling.hourAt}`);
+        const schedulingDateTime = new Date(scheduling.dayAt);
         return schedulingDateTime >= today;
       });
 
       const sorted = [...futureSchedulings].sort((a: Scheduling, b: Scheduling) => {
-        const dateA = new Date(`${a.dayAt}T${a.hourAt}`);
-        const dateB = new Date(`${b.dayAt}T${b.hourAt}`);
+        const dateA = new Date(a.dayAt);
+        const dateB = new Date(b.dayAt);
         return dateA.getTime() - dateB.getTime();
       });
 
@@ -107,7 +108,7 @@ export function BarberPendingAppointments({ barberId }: BarberPendingAppointment
           />
         ))
       ) : (
-        <p className="text-zinc-500 text-sm">Nenhum agendamento encontrado</p>
+        <p className="text-zinc-500 text-sm">Nenhum agendamento pendente</p>
       )}
 
       <AppointmentDrawer
