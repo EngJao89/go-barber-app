@@ -15,7 +15,11 @@ export default function DashboardBarber() {
   const [barberId, setBarberId] = useState<string>('');
 
   useEffect(() => {
-    fetchBarberId();
+    const timer = setTimeout(() => {
+      fetchBarberId();
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const fetchBarberId = async () => {
@@ -29,17 +33,32 @@ export default function DashboardBarber() {
       const response = await api.post('auth-barber/me', {});
 
       if (response.data?.id) {
-        setBarberId(response.data.id);
+        const id = String(response.data.id);
+        setBarberId(id);
       } else {
-        console.error('ID do barbeiro não encontrado na resposta:', response.data);
+        console.error('❌ DashboardBarber: ID do barbeiro não encontrado na resposta:', response.data);
       }
     } catch (error: unknown) {
-      console.error('Erro ao buscar ID do barbeiro:', error);
+      console.error('❌ DashboardBarber: Erro ao buscar ID do barbeiro:', error);
       
       if (error && typeof error === 'object' && 'response' in error) {
-        const axiosError = error as { response: { status: number; data: { message?: string; error?: string } } };
+        const axiosError = error as { 
+          response: { 
+            status: number; 
+            data: { message?: string; error?: string };
+            config?: { url?: string; method?: string };
+          } 
+        };
         console.error('Status:', axiosError.response.status);
         console.error('Data:', axiosError.response.data);
+        console.error('URL:', axiosError.response.config?.url);
+        console.error('Method:', axiosError.response.config?.method);
+
+        if (axiosError.response.status === 400) {
+          console.error('❌ Erro 400: Bad Request - Verifique se o token está válido e o endpoint está correto');
+        }
+      } else {
+        console.error('❌ Erro desconhecido:', error);
       }
     }
   };

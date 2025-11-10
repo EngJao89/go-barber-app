@@ -29,20 +29,21 @@ export function BarberNextAppointment({ barberId }: BarberNextAppointmentProps) 
         return;
       }
 
-      const barberSchedulings = response.data.filter((scheduling: Scheduling) => 
-        scheduling.barberId === barberId
-      );
+      const barberSchedulings = response.data.filter((scheduling: Scheduling) => {
+        const matches = String(scheduling.barberId) === String(barberId);
+        return matches;
+      });
 
       const today = new Date();
       const futureSchedulings = barberSchedulings.filter((scheduling: Scheduling) => {
-        const schedulingDateTime = new Date(`${scheduling.dayAt}T${scheduling.hourAt}`);
+        const schedulingDateTime = new Date(scheduling.dayAt);
         return schedulingDateTime >= today && scheduling.status !== 'cancelado';
       });
 
       if (futureSchedulings.length > 0) {
         const sorted = [...futureSchedulings].sort((a: Scheduling, b: Scheduling) => {
-          const dateA = new Date(`${a.dayAt}T${a.hourAt}`);
-          const dateB = new Date(`${b.dayAt}T${b.hourAt}`);
+          const dateA = new Date(a.dayAt);
+          const dateB = new Date(b.dayAt);
           return dateA.getTime() - dateB.getTime();
         });
         setNextAppointment(sorted[0]);
